@@ -79,7 +79,7 @@ int find_smallest_core_cipher(vector<int> word_values) {
         int core_cipher = do_core_cipher(word_values, operation_perm_int);
         // identify smallest (0 is sentinel value for no answer)
         if ((smallest_core_cipher == 0 & core_cipher > 0) or
-            (smallest_core_cipher != 0 & core_cipher < smallest_core_cipher)) {
+            (core_cipher > 0 & core_cipher < smallest_core_cipher)) {
                 smallest_core_cipher = core_cipher;
         }
     }
