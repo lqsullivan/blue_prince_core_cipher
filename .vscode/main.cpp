@@ -4,6 +4,24 @@
 
 using namespace std; 
 
+int do_operation(int a, int b, int op_index) {
+    int out;
+
+    if (op_index == 1) {
+        out = a + b;
+    } else if (op_index == 2) {
+        out = a - b;
+    } else if (op_index == 3) {
+        out = a * b;
+    } else if (op_index == 4) {
+        // TODO: how to handle fractions correctly? just trust floats?
+        out = a / b;
+    } 
+    // TODO: error handling for bad operator index?
+
+    return out;
+}
+
 int main(void) {
     // create dictionary to relate letter to number
     string alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -33,6 +51,8 @@ int main(void) {
     }
     cout << endl;
     cout << "core cipher: " << core_cipher << endl;
+
+    cout << "test operations: " << do_operation(3, 4, 1) << " " << do_operation(3, 4, 2) << " " << do_operation(3, 4, 3) << " " << do_operation(3, 4, 4) << endl;
 
     return 0;
 }
