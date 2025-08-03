@@ -4,10 +4,32 @@
 
 using namespace std; 
 
-// TODO: put on github, permutations of operators, command line or batch mode
+// TODO: put on github, command line or batch mode, unit tests
 // https://code.visualstudio.com/docs/sourcecontrol/intro-to-git 
 // https://www.geeksforgeeks.org/dsa/print-all-possible-permutations-of-an-array-vector-without-duplicates-using-backtracking/
 // https://stackoverflow.com/questions/11315854/input-from-command-line
+
+string get_input_word() {
+    // TODO: max 5 letters
+    string word_in;
+    cout << "word to decipher" << endl;
+    cin >> word_in;
+
+    return word_in;
+}
+
+vector<int> get_letter_numbers(string word) {
+    // create dictionary to relate letter to number
+    string alphabet = "abcdefghijklmnopqrstuvwxyz";
+    
+    // generate indices of letters in word
+    vector<int> word_indices(word.length());
+    for (int i = 0; i < word.length(); i++) {
+        word_indices[i] = alphabet.find(word[i]) + 1;
+    }
+
+    return word_indices;
+}
 
 int do_operation(int a, int b, int op_index) {
     int out;
@@ -40,30 +62,40 @@ int do_core_cipher(vector<int> word_values, vector<int> operation_seq) {
     return c;
 }
 
+int find_smallest_core_cipher(vector<int> word_values) {
+    // over all permutations, get core cipher, return smallest above 0
+    int smallest_core_cipher = 0;
+
+    // treat each operation as an integer, make permutations of those integers
+    string operation_perm = "1234";
+    do 
+    {
+        // store operation_permutation as vector
+        vector<int> operation_perm_int(operation_perm.length());
+        for (int i = 0; i < operation_perm.length(); i++) {
+            operation_perm_int[i] = operation_perm[i] - '0';
+        }
+        // compute the core cipher
+        int core_cipher = do_core_cipher(word_values, operation_perm_int);
+        // identify smallest (0 is sentinel value for no answer)
+        if ((smallest_core_cipher == 0 & core_cipher > 0) or
+            (smallest_core_cipher != 0 & core_cipher < smallest_core_cipher)) {
+                smallest_core_cipher = core_cipher;
+        }
+    }
+    while (std::next_permutation(operation_perm.begin(), operation_perm.end()));
+
+    return smallest_core_cipher;
+}
+
 int main(void) {
-    // create dictionary to relate letter to number
-    string alphabet = "abcdefghijklmnopqrstuvwxyz";
-    
-    // take input of word
-    // TODO: max 5 letters
-    string word_in;
-    cout << "word to decipher" << endl;
-    cin >> word_in;
+    // get input word
+    string word_in = get_input_word();
+    // turn word's letters into numbers
+    vector<int> word_indices = get_letter_numbers(word_in);
+    // find smallest of possible core ciphers
+    int core_cipher = find_smallest_core_cipher(word_indices);
 
-    // generate indices of letters in word
-    int word_indices[word_in.length()];
-    for (int i = 0; i < word_in.length(); i++) {
-        word_indices[i] = alphabet.find(word_in[i]) + 1;
-    }
-
-    // compute core ciphers
-    // put one of +,-,*,/ between the numbers, no repeats
-    // find the smallest positive integer that results
-    int core_cipher = ((word_indices[0] + word_indices[1]) - word_indices[2]) * word_indices[3];
-    char core_cipher_letter;
-    if (core_cipher < 26) {
-        core_cipher_letter = alphabet[core_cipher];
-    }
     // print word, length, and indices
     cout << "word       : " << word_in << endl;
     cout << "indices    : ";
@@ -71,28 +103,7 @@ int main(void) {
         cout << ele << " ";
     }
     cout << endl;
-    cout << "core cipher: " << core_cipher + 1 << endl;
-    cout << "core letter: " << core_cipher_letter << endl;
+    cout << "core cipher: " << core_cipher << endl;
 
-    cout << "test operations: " << do_operation(3, 4, 1) << " " << do_operation(3, 4, 2) << " " << do_operation(3, 4, 3) << " " << do_operation(3, 4, 4) << endl;
-
-    cout << "test core cipher: " << do_core_cipher({5, 2, 3}, {3, 2}) << endl;
-    // treat each operation as an integer, make permutations of those integers
-    // then index into the operations
-    string perm = "1234";
-    do 
-    {
-        for (char i : perm) {
-            cout << i;
-        }
-        cout << "\n";
-        // store permutation as vector
-        vector<int> perm_int(perm.length());
-        for (int i = 0; i < perm.length(); i++) {
-            perm_int[i] = perm[i] - '0';
-        }
-    }
-    while (std::next_permutation(perm.begin(), perm.end()));
-
-    return 0;
+    return core_cipher;
 }
