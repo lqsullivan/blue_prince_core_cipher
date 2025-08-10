@@ -4,7 +4,7 @@
 
 using namespace std; 
 
-// TODO: put on github, command line or i/o file, unit tests
+// TODO: command line or i/o file, unit tests
 // https://code.visualstudio.com/docs/sourcecontrol/intro-to-git 
 // https://www.geeksforgeeks.org/dsa/print-all-possible-permutations-of-an-array-vector-without-duplicates-using-backtracking/
 // https://stackoverflow.com/questions/11315854/input-from-command-line
