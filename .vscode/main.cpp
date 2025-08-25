@@ -35,12 +35,10 @@ float do_operation(float a, int b, int op_index) {
     float out;
 
     if (op_index == 1) {
-        out = a + b;
-    } else if (op_index == 2) {
         out = a - b;
-    } else if (op_index == 3) {
+    } else if (op_index == 2) {
         out = a * b;
-    } else if (op_index == 4) {
+    } else if (op_index == 3) {
         // TODO: how to handle fractions correctly? just trust floats?
         out = a / b;
     } 
@@ -72,7 +70,7 @@ float find_smallest_core_cipher(vector<int> word_values) {
     float smallest_core_cipher = 0;
 
     // treat each operation as an integer, make permutations of those integers
-    string operation_perm = "1234";
+    string operation_perm = "123";
     do 
     {
         // store operation_permutation as vector

@@ -8,9 +8,9 @@ find_letter <- function(word, verbose = FALSE) {
   
   candidates <- 
     expand_grid(
-      a = c("+", "-", "*", "/"),
-      b = c("+", "-", "*", "/"),
-      c = c("+", "-", "*", "/")
+      a = c("-", "*", "/"),
+      b = c("-", "*", "/"),
+      c = c("-", "*", "/")
     ) %>%
     filter(a != b,
            a != c,
@@ -31,8 +31,8 @@ find_letter <- function(word, verbose = FALSE) {
     return(candidates %>%
              `[`(1, ) %>% 
              pull(res)
-           # %>%
-           #   {`[`(letters, .)}
+           %>%
+             {`[`(letters, .)}
     )
   }
 }
@@ -46,6 +46,6 @@ c("pigs", "sand", "mail", "date", "head",
   "hand", "vase", "safe", "clay", "toes") %>%
   vapply(X = .,
          FUN = find_letter,
-         FUN.VALUE = double(1)) %>%
+         FUN.VALUE = character(1)) %>%
   paste(collapse = " ")
 
